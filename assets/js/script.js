@@ -133,41 +133,53 @@ window.addEventListener('load', function() {
     console.log(`Page loaded in ${loadTime.toFixed(2)}ms`);
 });
 
+// function toggleAbstract(button) {
+//     var abstract = button.closest('.publication-item').querySelector('.abstract-content');
+    
+//     // Different max heights for mobile vs desktop
+//     var maxAllowedHeight = window.innerWidth <= 768 ? 200 : 600;
+    
+//     if (abstract.classList.contains('show')) {
+//         // Hide abstract
+//         abstract.style.maxHeight = abstract.scrollHeight + 'px';
+//         abstract.offsetHeight; // Force reflow
+//         abstract.style.maxHeight = '0';
+//         abstract.style.overflowY = 'hidden';
+//         abstract.style.opacity = '0';
+//         abstract.style.transform = 'translateY(-5px)';
+        
+//         setTimeout(() => {
+//             abstract.classList.remove('show');
+//             abstract.style.overflowY = '';
+//         }, 600);
+        
+//         button.textContent = 'Abstract';
+//     } else {
+//         // Show abstract
+//         abstract.classList.add('show');
+//         abstract.style.maxHeight = '0';
+//         abstract.style.opacity = '0';
+//         abstract.style.transform = 'translateY(-5px)';
+//         abstract.style.overflowY = 'hidden';
+        
+//         abstract.offsetHeight; // Force reflow
+//         abstract.style.maxHeight = maxAllowedHeight + 'px';
+//         abstract.style.overflowY = 'auto';
+//         abstract.style.opacity = '1';
+//         abstract.style.transform = 'translateY(0)';
+        
+//         button.textContent = 'Hide Abstract';
+//     }
+// }
+
 function toggleAbstract(button) {
     var abstract = button.closest('.publication-item').querySelector('.abstract-content');
-    
-    // Different max heights for mobile vs desktop
-    var maxAllowedHeight = window.innerWidth <= 768 ? 200 : 600;
-    
+
     if (abstract.classList.contains('show')) {
-        // Hide abstract
-        abstract.style.maxHeight = abstract.scrollHeight + 'px';
-        abstract.offsetHeight; // Force reflow
-        abstract.style.maxHeight = '0';
-        abstract.style.overflowY = 'hidden';
-        abstract.style.opacity = '0';
-        abstract.style.transform = 'translateY(-5px)';
-        
-        setTimeout(() => {
-            abstract.classList.remove('show');
-            abstract.style.overflowY = '';
-        }, 600);
-        
+        abstract.classList.remove('show');
         button.textContent = 'Abstract';
     } else {
-        // Show abstract
         abstract.classList.add('show');
-        abstract.style.maxHeight = '0';
-        abstract.style.opacity = '0';
-        abstract.style.transform = 'translateY(-5px)';
-        abstract.style.overflowY = 'hidden';
-        
-        abstract.offsetHeight; // Force reflow
-        abstract.style.maxHeight = maxAllowedHeight + 'px';
-        abstract.style.overflowY = 'auto';
-        abstract.style.opacity = '1';
-        abstract.style.transform = 'translateY(0)';
-        
         button.textContent = 'Hide Abstract';
     }
 }
@@ -190,3 +202,18 @@ document.addEventListener('click', function(event) {
         hamburger.classList.remove('active');
     }
 });
+
+// Research area expand/collapse (accordion)
+function toggleResearch(card) {
+    const isOpen = card.classList.contains('open');
+
+    // Close all other open cards
+    document.querySelectorAll('.research-item.open').forEach(function(openCard) {
+        if (openCard !== card) {
+            openCard.classList.remove('open');
+        }
+    });
+
+    // Toggle this card
+    card.classList.toggle('open', !isOpen);
+}
