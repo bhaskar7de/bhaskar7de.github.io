@@ -579,3 +579,84 @@
   height: 100%;
   object-fit: cover;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@300;400&display=swap');
+
+.quotes-section {
+  padding: 2.5rem 1.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+  font-family: 'Lato', sans-serif;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--color-border-tertiary);
+}
+
+.quote-block {
+  position: relative;
+  padding: 2rem 2rem 2rem 3rem;
+  margin-bottom: 2rem;
+  border-left: 2px solid var(--color-border-secondary);
+  background: var(--color-background-secondary);
+  border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+}
+
+.quote-mark {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--color-border-secondary);
+  font-style: italic;
+  user-select: none;
+}
+
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.quote-divider {
+  width: 32px;
+  height: 0.5px;
+  background: var(--color-border-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.quote-attribution {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.quote-source {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 3px;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
