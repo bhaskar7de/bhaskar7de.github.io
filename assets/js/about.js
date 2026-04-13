@@ -1,17 +1,38 @@
 /* ============================================================
    about.js  —  Academic timeline for about.html
+   Place at: assets/js/about.js
+
+   TO ADD A NEW STOP: just add an entry to STOPS with the year,
+   anchor, and cards. The position on the track is computed
+   automatically from the year. No manual pct needed.
+
+   POSITIONING
+   ───────────
+   pct(year) = (year - firstYear) / (lastYear - firstYear) * 100
+   dotCentreX(pct) = DOT_R + (pct/100) * (trackWidth - DOT_D)
+
+   This guarantees:
+     first stop → dot centre at exactly DOT_R from left edge
+     last stop  → dot centre at exactly DOT_R from right edge
+     all others → linearly interpolated between those bounds
    ============================================================ */
 
 (function () {
   'use strict';
 
-  // Guard: skip entirely on pages without the timeline
-  if (!document.getElementById('tlTrack')) return;
+  var DOT_D   = 12;        /* dot diameter px  */
+  var DOT_R   = DOT_D / 2; /* dot radius   px  */
+  var DOT_GAP = 4;          /* gap between clustered dots px */
 
-  var DOT_D   = 12;
-  var DOT_R   = DOT_D / 2;
-  var DOT_GAP = 4;
-
+  /* ── Timeline data ─────────────────────────────────────────
+     To add a new stop in future, just add an object here.
+     - year    : the calendar year (used to compute position)
+     - anchor  : 'left' | 'mid' | 'right'
+                 'left'  = first dot is anchor, extras spread right
+                 'mid'   = cluster centred on position
+                 'right' = last dot is anchor, extras spread left
+     - cards   : one or more slide cards for this stop
+  ────────────────────────────────────────────────────────── */
   var STOPS = [
     {
       year: 2015, anchor: 'left',
@@ -41,7 +62,7 @@
       cards: [
         {
           bgClass: 'tl-bg-iitm', badge: 'tl-badge-edu',
-          years: '2018 \u2013 2020', degree: 'M. Sc. in Physics', institution: 'Indian Institute of Technology (IIT) Madras',
+          years: '2018 \u2013 2020',degree: 'M. Sc. in Physics', institution: 'Indian Institute of Technology (IIT) Madras',
           city: 'Chennai', country: 'India',
           desc: 'M.Sc. in Physics. Specialised in condensed matter physics and optical properties of nanostructures.',
         },
@@ -100,20 +121,30 @@
     },
   ];
 
+  /* ── Derive firstYear / lastYear automatically ─────────────
+     Always the min and max year in STOPS. No manual updates
+     needed when adding new stops at either end.             */
   var firstYear = STOPS.reduce(function (m, s) { return Math.min(m, s.year); }, Infinity);
   var lastYear  = STOPS.reduce(function (m, s) { return Math.max(m, s.year); }, -Infinity);
-  var yearSpan  = lastYear - firstYear;
+  var yearSpan  = lastYear - firstYear;  /* total years represented */
 
+  /* ── Compute 0–100 pct from year ──────────────────────────── */
   function yearToPct(year) {
     if (yearSpan === 0) return 0;
     return (year - firstYear) / yearSpan * 99;
   }
 
+  /* ── Compute dot-centre x in px from pct ──────────────────── */
+  /*   usable = trackWidth - DOT_D
+       x = DOT_R + (pct/100) * usable
+       → at pct=0:   x = DOT_R                (left edge)
+       → at pct=100: x = trackWidth - DOT_R   (right edge)  */
   function pctToX(pct, trackWidth) {
     var usable = trackWidth - DOT_D;
     return DOT_R + (pct / 100) * usable;
   }
 
+  /* ── Flatten stops into linear card array ──────────────────── */
   var CARDS = [];
   STOPS.forEach(function (stop, si) {
     stop.cards.forEach(function (card, ci) {
@@ -125,10 +156,12 @@
     });
   });
 
-  var current    = 7;
-  var animating  = false;
-  var dotCentreX = [];
+  /* ── State ─────────────────────────────────────────────────── */
+  var current   = 7;
+  var animating = false;
+  var dotCentreX = [];  /* px positions, populated by computeLayout() */
 
+  /* ── DOM refs ──────────────────────────────────────────────── */
   var elTrack    = document.getElementById('tlTrack');
   var elFill     = document.getElementById('tlFill');
   var elDotLayer = document.getElementById('tlDotLayer');
@@ -137,15 +170,18 @@
   var elPrev     = document.getElementById('tlPrev');
   var elNext     = document.getElementById('tlNext');
 
+  /* ── Measure track and compute all dot-centre px values ────── */
   function computeLayout() {
     var trackWidth = elTrack.getBoundingClientRect().width;
     if (trackWidth === 0) return false;
+
     dotCentreX = STOPS.map(function (stop) {
       return pctToX(yearToPct(stop.year), trackWidth);
     });
     return true;
   }
 
+  /* ── Build background layers (once on init) ────────────────── */
   function buildBgs() {
     CARDS.forEach(function (card, i) {
       var div = document.createElement('div');
@@ -156,32 +192,40 @@
     });
   }
 
+  /* ── Build dot clusters ────────────────────────────────────── */
   function buildDots() {
     elDotLayer.innerHTML = '';
+
     STOPS.forEach(function (stop, si) {
-      var n          = stop.cards.length;
-      var anchor     = stop.anchor;
-      var clusterW   = n * DOT_D + (n - 1) * DOT_GAP;
-      var cx         = dotCentreX[si];
+      var n        = stop.cards.length;
+      var anchor   = stop.anchor;
+      var clusterW = n * DOT_D + (n - 1) * DOT_GAP;
+      var cx       = dotCentreX[si];
+
+      /* left edge of the cluster so anchor dot centre lands on cx */
       var clusterLeft;
       if      (anchor === 'left')  clusterLeft = cx;
       else if (anchor === 'right') clusterLeft = cx - clusterW + DOT_D;
       else                         clusterLeft = cx - clusterW / 2;
 
+      /* anchor dot centre within the cluster (px from clusterLeft) */
       var anchorCxInCluster;
       if      (anchor === 'left')  anchorCxInCluster = clusterW / 2;
       else if (anchor === 'right') anchorCxInCluster = clusterW - DOT_R;
       else                         anchorCxInCluster = clusterW / 2;
 
+      /* group element */
       var group = document.createElement('div');
-      group.className  = 'tl-stop-group';
-      group.id         = 'tlgroup' + si;
+      group.className = 'tl-stop-group';
+      group.id        = 'tlgroup' + si;
       group.style.left = clusterLeft + 'px';
       group.style.top  = '0px';
 
+      /* dot cluster */
       var cluster = document.createElement('div');
       cluster.className = 'tl-dot-cluster';
 
+      /* render dots; right-anchor reverses order so card-0 dot is rightmost */
       var indices = [];
       for (var k = 0; k < n; k++) indices.push(k);
       if (anchor === 'right') indices.reverse();
@@ -200,9 +244,11 @@
         cluster.appendChild(dot);
       });
 
+      /* year label — centred under the anchor dot */
       var label = document.createElement('div');
       label.className = 'tl-stop-year';
       label.textContent = stop.year;
+      /* store anchor offset; corrected after paint in rAF below */
       label.dataset.anchorCx = anchorCxInCluster;
 
       group.appendChild(cluster);
@@ -210,6 +256,7 @@
       elDotLayer.appendChild(group);
     });
 
+    /* Centre each year label under its anchor dot once widths are known */
     requestAnimationFrame(function () {
       elDotLayer.querySelectorAll('.tl-stop-year').forEach(function (label) {
         var anchorCx  = parseFloat(label.dataset.anchorCx);
@@ -219,6 +266,7 @@
     });
   }
 
+  /* ── Pin icon SVG ──────────────────────────────────────────── */
   function pinSVG() {
     return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none"' +
       ' stroke="currentColor" stroke-width="2.5"' +
@@ -227,6 +275,7 @@
       '<circle cx="12" cy="10" r="3"></circle></svg>';
   }
 
+  /* ── Render card text + update fill and dot states ─────────── */
   function renderCard(idx) {
     var card = CARDS[idx];
     var loc  = card.city ? card.city + ', ' + card.country : card.country;
@@ -237,17 +286,20 @@
       '<div class="tl-card-institution">' + card.institution + '</div>' +
       '<div class="tl-card-degree">'      + (card.degree || '') + '</div>' +
       '<div class="tl-card-location">'    + pinSVG() + ' ' + loc + '</div>';
+      // '<div class="tl-card-desc' + (card.muted ? ' tl-muted' : '') + '">' + card.desc + '</div>';
 
+    /* fill width = dot centre of active stop */
     elFill.style.width = dotCentreX[card.stopIdx] + 'px';
 
+    /* stop-group highlight */
     elDotLayer.querySelectorAll('.tl-stop-group').forEach(function (g, si) {
       g.classList.toggle('tl-stop-active', si === card.stopIdx);
     });
 
+    /* individual dot highlight */
     elDotLayer.querySelectorAll('.tl-dot').forEach(function (d) {
       d.classList.remove('tl-dot-active');
     });
-
     var ad = document.getElementById('tldot' + card.stopIdx + '_' + card.cardInStop);
     if (ad) ad.classList.add('tl-dot-active');
 
@@ -255,6 +307,7 @@
     elNext.classList.toggle('tl-disabled', idx === CARDS.length - 1);
   }
 
+  /* ── Animate between cards ─────────────────────────────────── */
   function goTo(idx, dir) {
     if (animating || idx === current) return;
     animating = true;
@@ -284,21 +337,20 @@
     }, 580);
   }
 
-  // Public navigation for HTML buttons
+  /* ── Public navigation (HTML buttons) ──────────────────────── */
   window.tlNav = function (dir) {
     var next = current + dir;
     if (next < 0 || next >= CARDS.length) return;
     goTo(next, dir);
   };
 
-  // Keyboard navigation — ArrowLeft/Right for timeline,
-  // no conflict with Tab handler from Section 1
+  /* ── Keyboard navigation ────────────────────────────────────── */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft')  window.tlNav(-1);
     if (e.key === 'ArrowRight') window.tlNav(1);
   });
 
-  // Rebuild on resize
+  /* ── Rebuild on resize ──────────────────────────────────────── */
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
@@ -310,7 +362,9 @@
     }, 120);
   });
 
-  // Init
+  /* ── Init ───────────────────────────────────────────────────── */
+  /* Double rAF: first lets browser run layout, second ensures
+     getBoundingClientRect returns the real painted width.       */
   buildBgs();
   requestAnimationFrame(function () {
     requestAnimationFrame(function () {
@@ -318,6 +372,7 @@
         buildDots();
         renderCard(7);
       } else {
+        /* Fallback: wait 60ms and try once more */
         setTimeout(function () {
           if (computeLayout()) { buildDots(); renderCard(0); }
         }, 60);

@@ -1,17 +1,9 @@
 /* ============================================================
-   about.css  —  Styles for about.html only
-   (Timeline + Personal section)
+   about.css  — styles for about.html
+   Place at: assets/css/about.css
    ============================================================ */
 
-   ABOUT-PAGE-SPECIFIC STYLES  (about.html only)
-   Classes prefixed with .tl-* (timeline) or .about-* (personal)
-   are only rendered when about.html is loaded — no conflicts
-   with global styles above.
-   ═════════════════════════════════════════════════════════════ */
-
-/* ─────────────────────────────────────────────────────────────
-   19. TIMELINE
-───────────────────────────────────────────────────────────── */
+/* ── Timeline section ─────────────────────────────────────── */
 .tl-section {
     background: #f0f2f8;
     padding: 3rem 0 3.5rem;
@@ -27,22 +19,27 @@
     margin-bottom: 2.8rem;
 }
 
-/* Track area */
+/* ── Track area ────────────────────────────────────────────── */
+/* overflow:visible so dots at 0% / 100% are fully visible,
+   but the parent .container clips nothing extra.             */
 .tl-track-area {
     position: relative;
     margin-bottom: 2rem;
+    /* padding-top gives vertical space for the dot + year label */
     padding-top: 8px;
-    padding-bottom: 32px;
+    padding-bottom: 32px;   /* room for year label below track */
 }
 
+/* The actual 2px line */
 .tl-track {
     position: relative;
     height: 2px;
     background: rgba(102, 126, 234, 0.18);
+    /* overflow visible so the pseudo-element lines extend off-screen */
     overflow: visible;
 }
 
-/* Infinite extensions left and right */
+/* Infinite extension left */
 .tl-track::before {
     content: '';
     position: absolute;
@@ -53,6 +50,7 @@
     background: rgba(102, 126, 234, 0.18);
 }
 
+/* Infinite extension right */
 .tl-track::after {
     content: '';
     position: absolute;
@@ -74,7 +72,7 @@
     transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Infinite fill extension left */
+/* Infinite fill extension left (so fill appears to come from -∞) */
 .tl-fill::before {
     content: '';
     position: absolute;
@@ -85,30 +83,39 @@
     background: #667eea;
 }
 
-/* Dot layer */
+/* Dot layer — absolutely positioned over the track area,
+   dots positioned by JS in px                            */
 .tl-dot-layer {
     position: absolute;
+    /* top: half of dot (8px) subtracted from track's vertical center.
+       track sits at padding-top: 8px, so track top = 8px from area top.
+       dot center should align with track center (track top + 1px).
+       dot is 12px tall, so top of dot = track center - 6px = 8+1-6 = 3px */
     top: 3px;
     left: 0;
     right: 0;
-    height: 0;
+    height: 0;   /* zero height — children use position:absolute */
     overflow: visible;
 }
 
+/* Each stop group */
 .tl-stop-group {
     position: absolute;
+    /* horizontal position set in px by JS via style.left */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start;   /* overridden per anchor by JS */
     gap: 5px;
 }
 
+/* Dot cluster row */
 .tl-dot-cluster {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
+/* Single dot */
 .tl-dot {
     width: 12px;
     height: 12px;
@@ -132,12 +139,14 @@
     transform: scale(1.2);
 }
 
+/* Year label below cluster */
 .tl-stop-year {
     font-size: 0.6rem;
     font-weight: 500;
     color: #bbb;
     white-space: nowrap;
     transition: color 0.25s, font-weight 0.25s;
+    /* horizontal offset corrected by JS so label centre = anchor dot centre */
 }
 
 .tl-stop-group.tl-stop-active .tl-stop-year {
@@ -145,7 +154,7 @@
     font-weight: 700;
 }
 
-/* Slideshow card */
+/* ── Slideshow card ────────────────────────────────────────── */
 .tl-card {
     position: relative;
     width: 100%;
@@ -155,6 +164,7 @@
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.16);
 }
 
+/* Background layers — one per card, stacked */
 .tl-card-bgs { position: absolute; inset: 0; }
 
 .tl-bg {
@@ -171,6 +181,7 @@
 .tl-bg.tl-bg-exit-fwd { opacity: 0;  transform: translateX(-2%) scale(0.98); }
 .tl-bg.tl-bg-exit-bwd { opacity: 0;  transform: translateX(2%)  scale(0.98); }
 
+/* Gradient for text readability */
 .tl-card-overlay {
     position: absolute;
     inset: 0;
@@ -184,6 +195,7 @@
     pointer-events: none;
 }
 
+/* Text content */
 .tl-card-content {
     position: absolute;
     bottom: 0;
@@ -193,7 +205,6 @@
     padding: 2rem 4.5rem 1rem;
 }
 
-/* Badges */
 .tl-badge {
     display: inline-block;
     font-size: 0.6rem;
@@ -209,7 +220,6 @@
 .tl-badge-award { background: rgba(255,140,66,0.28);   color: #fcd9b6; }
 .tl-badge-soon  { background: rgba(255,255,255,0.12);  color: rgba(255,255,255,0.45); }
 
-/* Card text */
 .tl-card-years {
     font-size: 0.7rem;
     font-weight: 700;
@@ -220,11 +230,11 @@
 }
 
 .tl-card-institution {
-    font-size: 1.3rem;
+    font-size: 1.3rem;  /* reduce from 1.7rem */
     font-weight: 700;
     color: #fff;
     line-height: 1.2;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.2rem;  /* tighter gap before degree */
 }
 
 .tl-card-degree {
@@ -257,7 +267,7 @@
     font-style: italic;
 }
 
-/* Chevron nav buttons */
+/* Chevron buttons */
 .tl-btn {
     position: absolute;
     top: 50%;
@@ -275,9 +285,9 @@
     transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 
-.tl-btn svg    { width: 18px; height: 18px; }
-.tl-btn-left   { left: 1rem; }
-.tl-btn-right  { right: 1rem; }
+.tl-btn svg { width: 18px; height: 18px; }
+.tl-btn-left  { left: 1rem; }
+.tl-btn-right { right: 1rem; }
 
 .tl-btn:hover {
     background: rgba(255,255,255,0.22);
@@ -292,7 +302,7 @@
     pointer-events: none;
 }
 
-/* Background images (replace with real photos) */
+/* Placeholder bg colours (replace with real photos in CSS) */
 .tl-bg-school {
     background-image: url('../../assets/images/school.jpeg');
     background-size: cover;
@@ -319,14 +329,11 @@
     background-position: bottom;
 }
 .tl-bg-inspire { background: linear-gradient(145deg, #0d1b6e, #c44b00, #ff8c42); }
-.tl-bg-csir    { background: linear-gradient(145deg, #0a2342, #1a6b7a, #2eb8b8); }
-.tl-bg-pmrf    { background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a); }
+.tl-bg-csir { background: linear-gradient(145deg, #0a2342, #1a6b7a, #2eb8b8); }
+.tl-bg-pmrf { background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a); }
 .tl-bg-postdoc { background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #4a4a4a); }
 
-
-/* ─────────────────────────────────────────────────────────────
-   20. PERSONAL SECTION (about.html)
-───────────────────────────────────────────────────────────── */
+/* ── Personal section ─────────────────────────────────────── */
 .personal-section {
     background: #f8f9fa;
     padding: 4rem 0;
@@ -369,7 +376,7 @@
     display: block;
 }
 
-/* Placeholder colours */
+/* Placeholder colours — remove once real photos added */
 .apc1 { background: #b8d4ea; }
 .apc2 { background: linear-gradient(135deg, #f4845f, #e8a87c); }
 .apc3 { background: #74c69d; }
@@ -377,7 +384,7 @@
 .apc5 { background: linear-gradient(135deg, #f9a825, #ffe066); }
 .apc6 { background: linear-gradient(135deg, #4a90d9, #90e0ef); }
 
-/* Instagram cards */
+/* Instagram handle pills */
 .about-ig-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -416,7 +423,7 @@
     fill: white;
 }
 
-.about-ig-info  { flex: 1; min-width: 0; }
+.about-ig-info { flex: 1; min-width: 0; }
 
 .about-ig-name {
     font-size: 0.85rem;
@@ -448,7 +455,6 @@
     border-color: rgba(52, 152, 219, 0.5);
     text-decoration: none;
 }
-
 /* Interests */
 .about-interests {
     display: grid;
@@ -483,7 +489,7 @@
     margin: 0;
 }
 
-/* Writing / Substack placeholder */
+/* Writing placeholder */
 .about-writing-soon {
     background: white;
     border: 1px dashed #ddd;
@@ -536,18 +542,11 @@
     margin: 0;
 }
 
-
-/* ─────────────────────────────────────────────────────────────
-   21. RESPONSIVE — ABOUT PAGE
-───────────────────────────────────────────────────────────── */
+/* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .tl-card { height: 380px; }
     .tl-card-content { padding: 1.5rem 4rem 2rem; }
     .tl-card-institution { font-size: 1.3rem; }
-}
-
-@media (max-width: 600px) {
-    .about-ig-row { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
@@ -555,4 +554,16 @@
     .tl-card-content { padding: 1.2rem 3.5rem 1.6rem; }
     .tl-card-institution { font-size: 1.1rem; }
     .about-photo-grid { gap: 3px; }
+}
+
+@media (max-width: 600px) {
+    .about-ig-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        overflow: visible;
+    }
 }
