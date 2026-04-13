@@ -1,0 +1,535 @@
+/* ============================================================
+   about.css  — styles for about.html
+   Place at: assets/css/about.css
+   ============================================================ */
+
+/* ── Timeline section ─────────────────────────────────────── */
+.tl-section {
+    background: #f0f2f8;
+    padding: 3rem 0 3.5rem;
+}
+
+.tl-section-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2.8rem;
+}
+
+/* ── Track area ────────────────────────────────────────────── */
+/* overflow:visible so dots at 0% / 100% are fully visible,
+   but the parent .container clips nothing extra.             */
+.tl-track-area {
+    position: relative;
+    margin-bottom: 2rem;
+    /* padding-top gives vertical space for the dot + year label */
+    padding-top: 8px;
+    padding-bottom: 32px;   /* room for year label below track */
+}
+
+/* The actual 2px line */
+.tl-track {
+    position: relative;
+    height: 2px;
+    background: rgba(102, 126, 234, 0.18);
+    /* overflow visible so the pseudo-element lines extend off-screen */
+    overflow: visible;
+}
+
+/* Infinite extension left */
+.tl-track::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 0;
+    width: 200vw;
+    height: 2px;
+    background: rgba(102, 126, 234, 0.18);
+}
+
+/* Infinite extension right */
+.tl-track::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 200vw;
+    height: 2px;
+    background: rgba(102, 126, 234, 0.18);
+}
+
+/* Coloured fill — width set in px by JS */
+.tl-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Infinite fill extension left (so fill appears to come from -∞) */
+.tl-fill::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 0;
+    width: 200vw;
+    height: 2px;
+    background: #667eea;
+}
+
+/* Dot layer — absolutely positioned over the track area,
+   dots positioned by JS in px                            */
+.tl-dot-layer {
+    position: absolute;
+    /* top: half of dot (8px) subtracted from track's vertical center.
+       track sits at padding-top: 8px, so track top = 8px from area top.
+       dot center should align with track center (track top + 1px).
+       dot is 12px tall, so top of dot = track center - 6px = 8+1-6 = 3px */
+    top: 3px;
+    left: 0;
+    right: 0;
+    height: 0;   /* zero height — children use position:absolute */
+    overflow: visible;
+}
+
+/* Each stop group */
+.tl-stop-group {
+    position: absolute;
+    /* horizontal position set in px by JS via style.left */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;   /* overridden per anchor by JS */
+    gap: 5px;
+}
+
+/* Dot cluster row */
+.tl-dot-cluster {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Single dot */
+.tl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.2);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    flex-shrink: 0;
+}
+
+.tl-dot:hover {
+    background: rgba(102, 126, 234, 0.45);
+    border-color: rgba(102, 126, 234, 0.6);
+}
+
+.tl-dot.tl-dot-active {
+    background: #667eea;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    transform: scale(1.2);
+}
+
+/* Year label below cluster */
+.tl-stop-year {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: #bbb;
+    white-space: nowrap;
+    transition: color 0.25s, font-weight 0.25s;
+    /* horizontal offset corrected by JS so label centre = anchor dot centre */
+}
+
+.tl-stop-group.tl-stop-active .tl-stop-year {
+    color: #667eea;
+    font-weight: 700;
+}
+
+/* ── Slideshow card ────────────────────────────────────────── */
+.tl-card {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.16);
+}
+
+/* Background layers — one per card, stacked */
+.tl-card-bgs { position: absolute; inset: 0; }
+
+.tl-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.tl-bg.tl-bg-visible  { opacity: 1;  transform: scale(1); }
+.tl-bg.tl-bg-exit-fwd { opacity: 0;  transform: translateX(-2%) scale(0.98); }
+.tl-bg.tl-bg-exit-bwd { opacity: 0;  transform: translateX(2%)  scale(0.98); }
+
+/* Gradient for text readability */
+.tl-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.88) 0%,
+        rgba(0,0,0,0.45) 45%,
+        transparent      100%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Text content */
+.tl-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding: 2rem 4.5rem 1rem;
+}
+
+.tl-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 0.55rem;
+}
+
+.tl-badge-edu   { background: rgba(82,183,136,0.28);  color: #a7f3d0; }
+.tl-badge-award { background: rgba(255,140,66,0.28);   color: #fcd9b6; }
+.tl-badge-soon  { background: rgba(255,255,255,0.12);  color: rgba(255,255,255,0.45); }
+
+.tl-card-years {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.4rem;
+}
+
+.tl-card-institution {
+    font-size: 1.3rem;  /* reduce from 1.7rem */
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 0.2rem;  /* tighter gap before degree */
+}
+
+.tl-card-degree {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+.tl-card-location {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.7rem;
+}
+
+.tl-card-location svg { flex-shrink: 0; opacity: 0.7; }
+
+.tl-card-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.65;
+    max-width: 580px;
+}
+
+.tl-card-desc.tl-muted {
+    color: rgba(255,255,255,0.35);
+    font-style: italic;
+}
+
+/* Chevron buttons */
+.tl-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.tl-btn svg { width: 18px; height: 18px; }
+.tl-btn-left  { left: 1rem; }
+.tl-btn-right { right: 1rem; }
+
+.tl-btn:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.5);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.tl-btn:active { transform: translateY(-50%) scale(0.96); }
+
+.tl-btn.tl-disabled {
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* Placeholder bg colours (replace with real photos in CSS) */
+.tl-bg-school  { background: linear-gradient(145deg, #1a1a2e, #16213e, #0f3460); }
+.tl-bg-rkmrc   { background: linear-gradient(145deg, #1b4332, #2d6a4f, #52b788); }
+.tl-bg-inspire { background: linear-gradient(145deg, #7b2d00, #c44b00, #ff8c42); }
+.tl-bg-iitm    { background: linear-gradient(145deg, #4a0e0e, #8b1a1a, #c0392b); }
+.tl-bg-csir    { background: linear-gradient(145deg, #1a237e, #283593, #5c6bc0); }
+.tl-bg-pmrf    { background: linear-gradient(145deg, #4a0072, #7b1fa2, #ce93d8); }
+.tl-bg-postdoc { background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #4a4a4a); }
+
+/* ── Personal section ─────────────────────────────────────── */
+.personal-section {
+    background: #f8f9fa;
+    padding: 4rem 0;
+}
+
+.about-bio {
+    border-left: 5px solid #3498db;
+    padding: 1.1rem 1.4rem;
+    border-radius: 0 10px 10px 0;
+    background: white;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #555;
+    margin-bottom: 2.5rem;
+}
+
+.about-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #aaa;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+}
+
+/* Photo grid */
+.about-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.about-photo-cell {
+    aspect-ratio: 1;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Placeholder colours — remove once real photos added */
+.apc1 { background: #b8d4ea; }
+.apc2 { background: linear-gradient(135deg, #f4845f, #e8a87c); }
+.apc3 { background: #74c69d; }
+.apc4 { background: #212529; }
+.apc5 { background: linear-gradient(135deg, #f9a825, #ffe066); }
+.apc6 { background: linear-gradient(135deg, #4a90d9, #90e0ef); }
+
+/* Instagram handle pills */
+.about-ig-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.about-ig-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.about-ig-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+}
+
+.about-ig-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.about-ig-avatar svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+.about-ig-info { flex: 1; min-width: 0; }
+
+.about-ig-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.about-ig-handle {
+    font-size: 0.75rem;
+    color: #aaa;
+}
+
+.about-ig-follow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.3rem 0.85rem;
+    border-radius: 6px;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    background: rgba(52, 152, 219, 0.08);
+    color: #3498db;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.about-ig-follow:hover {
+    background: rgba(52, 152, 219, 0.15);
+    border-color: rgba(52, 152, 219, 0.5);
+    text-decoration: none;
+}
+/* Interests */
+.about-interests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.about-interest-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+}
+
+.about-interest-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+.about-interest-card h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.2rem;
+}
+
+.about-interest-card p {
+    font-size: 0.78rem;
+    color: #888;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Writing placeholder */
+.about-writing-soon {
+    background: white;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: center;
+}
+
+.about-substack-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #e06b4a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+}
+
+.about-substack-icon svg { width: 24px; height: 24px; fill: white; }
+
+.about-soon-pill {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    color: #ccc;
+    border: 1px solid #eee;
+}
+
+.about-writing-soon h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #bbb;
+    margin: 0;
+}
+
+.about-writing-soon p {
+    font-size: 0.78rem;
+    color: #ccc;
+    line-height: 1.6;
+    max-width: 300px;
+    margin: 0;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .tl-card { height: 380px; }
+    .tl-card-content { padding: 1.5rem 4rem 2rem; }
+    .tl-card-institution { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+    .tl-card { height: 340px; }
+    .tl-card-content { padding: 1.2rem 3.5rem 1.6rem; }
+    .tl-card-institution { font-size: 1.1rem; }
+    .about-photo-grid { gap: 3px; }
+}

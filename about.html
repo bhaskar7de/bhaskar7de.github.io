@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Bhaskar De | IISER Bhopal</title>
+    <meta name="description" content="About Bhaskar De — academic journey, photography, and life outside the lab." />
+    <link rel="preload" href="assets/css/style.css" as="style">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/about.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><a href="/">Bhaskar De</a></div>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="research.html">Research</a>
+                <a href="publications.html">Publications</a>
+                <a href="presentations.html">Presentations</a>
+                <a href="teaching.html">Teaching Assistantship</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html" class="active">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+
+        <section class="page-header">
+            <div class="container">
+                <h1>About Me</h1>
+                <p class="page-subtitle">Academic journey, interests &amp; life outside the lab</p>
+            </div>
+        </section>
+
+        <!-- ══ TIMELINE ══════════════════════════════════════════ -->
+        <section class="tl-section">
+            <div class="container">
+                <p class="tl-section-label">Academic Timeline</p>
+
+                <!-- The track element. JS measures its bounding rect after layout. -->
+                <div class="tl-track-area" id="tlTrackArea">
+                    <div class="tl-track" id="tlTrack">
+                        <div class="tl-fill" id="tlFill"></div>
+                    </div>
+                    <!-- Dots injected here by JS -->
+                    <div class="tl-dot-layer" id="tlDotLayer"></div>
+                </div>
+
+                <!-- Slideshow card -->
+                <div class="tl-card" id="tlCard">
+                    <div class="tl-card-bgs" id="tlBgs"></div>
+                    <div class="tl-card-overlay"></div>
+
+                    <button class="tl-btn tl-btn-left tl-disabled" id="tlPrev"
+                            onclick="tlNav(-1)" aria-label="Previous">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="tl-btn tl-btn-right" id="tlNext"
+                            onclick="tlNav(1)" aria-label="Next">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="tl-card-content" id="tlContent"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ══ PERSONAL ══════════════════════════════════════════ -->
+        <section class="personal-section">
+            <div class="container">
+
+                <div class="about-bio">
+                    When I'm not playing with lasers, I enjoy exploring the world
+                    through a camera lens — landscapes, night skies, and everyday moments.
+                    Every photo is a proof that even for once everything was fine.
+                </div>
+
+                <p class="about-label">Photography</p>
+                <div class="about-photo-grid">
+                    <!-- Replace with <img src="assets/images/photo.jpg" alt="..."> -->
+                    <div class="about-photo-cell apc1"></div>
+                    <div class="about-photo-cell apc2"></div>
+                    <div class="about-photo-cell apc3"></div>
+                    <div class="about-photo-cell apc4"></div>
+                    <div class="about-photo-cell apc5"></div>
+                    <div class="about-photo-cell apc6"></div>
+                </div>
+                <div class="about-ig-row">
+                    <div class="about-ig-card">
+                        <div class="about-ig-card-header">
+                            <div class="about-ig-avatar">
+                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </div>
+                            <div class="about-ig-info">
+                                <div class="about-ig-name">Personal</div>
+                                <div class="about-ig-handle">@bhaskar_de</div>
+                            </div>
+                            <a href="https://instagram.com/bhaskar_de" target="_blank" rel="noopener noreferrer" class="about-ig-follow">Follow</a>
+                        </div>
+                    </div>
+
+                    <div class="about-ig-card">
+                        <div class="about-ig-card-header">
+                            <div class="about-ig-avatar">
+                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </div>
+                            <div class="about-ig-info">
+                                <div class="about-ig-name">Photography</div>
+                                <div class="about-ig-handle">@by_bhaskarde</div>
+                            </div>
+                            <a href="https://instagram.com/by_bhaskarde" target="_blank" rel="noopener noreferrer" class="about-ig-follow">Follow</a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="about-label">Other Interests</p>
+                <div class="about-interests">
+                    <div class="about-interest-card">
+                        <span class="about-interest-icon">✈️</span>
+                        <div><h4>Travelling</h4><p>Exploring new places, cultures, and landscapes.<br>Gurudongmar Lake (5,430 m / 17,800 ft), Sikkim · Khardung La (5,359 m / 17,582 ft), Ladakh.</p></div>
+                    </div>
+                    <div class="about-interest-card">
+                        <span class="about-interest-icon">🥾</span>
+                        <div><h4>Hiking</h4><p>Trails and mountains wherever I find myself.<br>Tungnath (3,680 m / 12,073 ft), world's highest Shiva temple · Chandrashila Summit (4,000+ m / 13,123+ ft), Uttarakhand · Kasol–Kheerganga, Himachal Pradesh.</p></div>
+                    </div>
+                    <div class="about-interest-card">
+                        <span class="about-interest-icon">📖</span>
+                        <div><h4>Reading</h4><p>Personal finance, self-help, and philosophy. A mix of practical wisdom and big-picture thinking.</p></div>
+                    </div>
+                    <div class="about-interest-card">
+                        <span class="about-interest-icon">🎌</span>
+                        <div><h4>Anime</h4><p>From political thrillers and philosophical dystopias to epic shonen — a long-standing habit that shows no signs of stopping.</p></div>
+                    </div>
+                </div>
+
+                <p class="about-label">Writing</p>
+                <div class="about-writing-soon">
+                    <div class="about-substack-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                    </div>
+                    <span class="about-soon-pill">Coming Soon</span>
+                    <h4>Dispatches from the lab &amp; beyond</h4>
+                    <p>Setting up a Substack for writing about research life, photography,
+                       and life. Check back soon.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Bhaskar De. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js" defer></script>
+    <script src="assets/js/about.js" defer></script>
+</body>
+</html>
