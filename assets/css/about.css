@@ -303,12 +303,7 @@
 }
 
 /* Placeholder bg colours (replace with real photos in CSS) */
-.tl-bg-school {
-    background-image: url('assets/images/school.jpg');
-    background-size: cover;
-    background-position: center;
-}
-/* .tl-bg-school  { background: linear-gradient(145deg, #1a1a2e, #16213e, #0f3460); } */
+.tl-bg-school  { background: linear-gradient(145deg, #1a1a2e, #16213e, #0f3460); }
 .tl-bg-rkmrc   { background: linear-gradient(145deg, #1b4332, #2d6a4f, #52b788); }
 .tl-bg-inspire { background: linear-gradient(145deg, #7b2d00, #c44b00, #ff8c42); }
 .tl-bg-iitm    { background: linear-gradient(145deg, #4a0e0e, #8b1a1a, #c0392b); }
