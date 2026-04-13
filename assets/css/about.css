@@ -566,10 +566,4 @@
     .nav-container {
         overflow: visible;
     }
-    
-    .hamburger {
-        display: flex !important;
-        position: relative;
-        z-index: 1001;
-    }
 }
