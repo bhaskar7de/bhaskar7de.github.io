@@ -533,3 +533,9 @@
     .tl-card-institution { font-size: 1.1rem; }
     .about-photo-grid { gap: 3px; }
 }
+
+@media (max-width: 600px) {
+    .about-ig-row {
+        grid-template-columns: 1fr;
+    }
+}
