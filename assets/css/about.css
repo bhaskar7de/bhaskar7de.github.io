@@ -330,7 +330,7 @@
 }
 .tl-bg-inspire { background: linear-gradient(145deg, #0d1b6e, #c44b00, #ff8c42); }
 .tl-bg-csir { background: linear-gradient(145deg, #0a2342, #1a6b7a, #2eb8b8); }
-.tl-bg-pmrf { background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a); } }
+.tl-bg-pmrf { background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a); }
 .tl-bg-postdoc { background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #4a4a4a); }
 
 /* ── Personal section ─────────────────────────────────────── */
@@ -559,5 +559,11 @@
 @media (max-width: 600px) {
     .about-ig-row {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex !important;
     }
 }
