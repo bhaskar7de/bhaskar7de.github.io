@@ -891,7 +891,7 @@ a:hover {
 @media (max-width: 768px) {
     /* Mobile nav */
     .hamburger {
-        display: flex;
+        display: flex !important;
     }
 
     .nav-links {
