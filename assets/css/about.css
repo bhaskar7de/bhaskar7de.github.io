@@ -313,43 +313,24 @@
     background-size: cover;
     background-position: center;
 }
-.tl-bg-inspire {
-    background-image: url('https://online-inspire.gov.in/images/dst-logo.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top;
-    background-color: #0a1628;
-}
 .tl-bg-iitm {
     background-image: url('../../assets/images/iitm.jpg');
     background-size: cover;
     background-position: center;
-}
-.tl-bg-csir {
-    background-image: url('../../assets/images/csir_logo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top;
-    background-color: #ffffff;
 }
 .tl-bg-iiser {
     background-image: url('../../assets/images/iiser.jpg');
     background-size: cover;
     background-position: center;
 }
-.tl-bg-pmrf {
-    background-image: url('../../assets/images/pmrf.png');
-    background-size: 40%;
-    background-repeat: no-repeat;
-    background-position: top;
-    background-color: #0a1628;
-}
 .tl-bg-iiserpmrf {
     background-image: url('../../assets/images/iiser2.jpg');
     background-size: cover;
     background-position: bottom;
 }
-/* .tl-bg-pmrf    { background: linear-gradient(145deg, #4a0072, #7b1fa2, #ce93d8); } */
+.tl-bg-inspire { background: linear-gradient(145deg, #0d1b6e, #c44b00, #ff8c42); }
+.tl-bg-csir { background: linear-gradient(145deg, #0a2342, #1a6b7a, #2eb8b8); }
+.tl-bg-pmrf { background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a); } }
 .tl-bg-postdoc { background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #4a4a4a); }
 
 /* ── Personal section ─────────────────────────────────────── */
