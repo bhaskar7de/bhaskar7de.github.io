@@ -95,7 +95,7 @@
       cards: [
         {
           bgClass: 'tl-bg-pmrf', badge: 'tl-badge-award', badgeText: 'Fellowship',
-          years: '2021', institution: 'Prime Minister\u2019s Research fellowship',
+          years: '2021', institution: 'Prime Minister\u2019s Research Fellowship',
           city: 'Ministry of Education', country: 'Govt. of India',
           desc: "Awarded the Prime Minister\u2019s Research Fellowship \u2014 India\u2019s most prestigious PhD fellowship. Research in two-dimensional coherent spectroscopy. Published in Optics Letters & Physical Review B. PhD completed 2026.",
         },
@@ -112,7 +112,7 @@
       cards: [
         {
           bgClass: 'tl-bg-postdoc', badge: 'tl-badge-soon', badgeText: 'Coming Soon',
-          years: '2026 \u2013 Present', institution: 'Postdoctoral Researcher',
+          years: '', institution: 'Postdoctoral Researcher',
           city: null, country: '',
           desc: 'A new chapter begins.',
           muted: true,
@@ -157,7 +157,7 @@
   });
 
   /* ── State ─────────────────────────────────────────────────── */
-  var current   = 0;
+  var current   = 7;
   var animating = false;
   var dotCentreX = [];  /* px positions, populated by computeLayout() */
 
@@ -370,7 +370,7 @@
     requestAnimationFrame(function () {
       if (computeLayout()) {
         buildDots();
-        renderCard(0);
+        renderCard(7);
       } else {
         /* Fallback: wait 60ms and try once more */
         setTimeout(function () {
