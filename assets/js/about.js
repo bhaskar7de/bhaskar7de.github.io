@@ -83,7 +83,7 @@
       year: 2020, anchor: 'mid',
       cards: [
         {
-          bgClass: 'tl-bg-iitm', badge: 'tl-badge-edu',
+          bgClass: 'tl-bg-iiser', badge: 'tl-badge-edu',
           years: '2020 \u2013 2021', degree: 'PhD in Physics, CSIR Junior Research Fellow', institution: 'Indian Institute of Science Education and Research (IISER) Bhopal',
           city: 'Bhopal', country: 'India',
           desc: 'M.Sc. in Physics. Specialised in condensed matter physics and optical properties of nanostructures.',
@@ -100,7 +100,7 @@
           desc: "Awarded the Prime Minister\u2019s Research Fellowship \u2014 India\u2019s most prestigious PhD fellowship. Research in two-dimensional coherent spectroscopy. Published in Optics Letters & Physical Review B. PhD completed 2026.",
         },
         {
-          bgClass: 'tl-bg-iitm', badge: 'tl-badge-edu',
+          bgClass: 'tl-bg-iiserpmrf', badge: 'tl-badge-edu',
           years: '2021 \u2013 2026', degree: 'PhD in Physics, PMRF Fellow', institution: 'Indian Institute of Science Education and Research (IISER) Bhopal',
           city: 'Bhopal', country: 'India',
           desc: 'M.Sc. in Physics. Specialised in condensed matter physics and optical properties of nanostructures.',
@@ -187,7 +187,7 @@
       var div = document.createElement('div');
       div.className = 'tl-bg ' + card.bgClass;
       div.id = 'tlbg' + i;
-      if (i === 0) div.classList.add('tl-bg-visible');
+      if (i === 7) div.classList.add('tl-bg-visible');
       elBgs.appendChild(div);
     });
   }
