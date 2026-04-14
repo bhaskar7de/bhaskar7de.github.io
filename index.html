@@ -53,7 +53,13 @@
                         </div>
                     </div>
                     <div class="hero-image">
-                        <img src="assets/images/profile.webp" alt="Bhaskar De" class="profile-img">
+                        <img
+                            src="assets/images/profile-800w.webp"
+                            fetchpriority="high"
+                            srcset="assets/images/profile-400w.webp 400w, assets/images/profile-800w.webp 800w, assets/images/profile-1200w.webp 1200w"
+                            sizes="(max-width: 480px) 400px, (max-width: 900px) 800px, 1200px"
+                            alt="Bhaskar De" class="profile-img">
+                        <!-- <img src="assets/images/profile.webp" alt="Bhaskar De" class="profile-img"> -->
                     </div>
                 </div>
             </div>

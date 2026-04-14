@@ -304,27 +304,27 @@
 
 /* Placeholder bg colours (replace with real photos in CSS) */
 .tl-bg-school {
-    background-image: url('../../assets/images/school.webp');
+    background-image: url('../../assets/images/school-800w.webp');
     background-size: cover;
     background-position: center;
 }
 .tl-bg-rkmrc {
-    background-image: url('../../assets/images/rkmrc.webp');
+    background-image: url('../../assets/images/rkmrc-800w.webp');
     background-size: cover;
     background-position: center;
 }
 .tl-bg-iitm {
-    background-image: url('../../assets/images/iitm.webp');
+    background-image: url('../../assets/images/iit_madras-800w.webp');
     background-size: cover;
     background-position: center;
 }
 .tl-bg-iiser {
-    background-image: url('../../assets/images/iiser.webp');
+    background-image: url('../../assets/images/iiser_gate-800w.webp');
     background-size: cover;
     background-position: center;
 }
 .tl-bg-iiserpmrf {
-    background-image: url('../../assets/images/iiser2.webp');
+    background-image: url('../../assets/images/iiser_lab-800w.webp');
     background-size: cover;
     background-position: bottom;
 }
