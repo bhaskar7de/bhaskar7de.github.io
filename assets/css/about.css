@@ -5,581 +5,877 @@
 
 /* ── Timeline section ─────────────────────────────────────── */
 .tl-section {
-    background: #f0f2f8;
-    padding: 3rem 0 3.5rem;
+  background: #f0f2f8;
+  padding: 3rem 0 3.5rem;
 }
 
 .tl-section-label {
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: #999;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 2.8rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #999;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 2.8rem;
 }
 
 /* ── Track area ────────────────────────────────────────────── */
 /* overflow:visible so dots at 0% / 100% are fully visible,
    but the parent .container clips nothing extra.             */
 .tl-track-area {
-    position: relative;
-    margin-bottom: 2rem;
-    /* padding-top gives vertical space for the dot + year label */
-    padding-top: 8px;
-    padding-bottom: 32px;   /* room for year label below track */
+  position: relative;
+  margin-bottom: 2rem;
+  /* padding-top gives vertical space for the dot + year label */
+  padding-top: 8px;
+  padding-bottom: 32px; /* room for year label below track */
 }
 
 /* The actual 2px line */
 .tl-track {
-    position: relative;
-    height: 2px;
-    background: rgba(102, 126, 234, 0.18);
-    /* overflow visible so the pseudo-element lines extend off-screen */
-    overflow: visible;
+  position: relative;
+  height: 2px;
+  background: rgba(102, 126, 234, 0.18);
+  /* overflow visible so the pseudo-element lines extend off-screen */
+  overflow: visible;
 }
 
 /* Infinite extension left */
 .tl-track::before {
-    content: '';
-    position: absolute;
-    right: 100%;
-    top: 0;
-    width: 200vw;
-    height: 2px;
-    background: rgba(102, 126, 234, 0.18);
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 200vw;
+  height: 2px;
+  background: rgba(102, 126, 234, 0.18);
 }
 
 /* Infinite extension right */
 .tl-track::after {
-    content: '';
-    position: fixed;
-    left: 100%;
-    top: 0;
-    width: 200vw;
-    height: 2px;
-    background: rgba(102, 126, 234, 0.18);
+  content: "";
+  position: fixed;
+  left: 100%;
+  top: 0;
+  width: 200vw;
+  height: 2px;
+  background: rgba(102, 126, 234, 0.18);
 }
 
 /* Coloured fill — width set in px by JS */
 .tl-fill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 2px;
-    width: 0;
-    background: linear-gradient(to right, #667eea, #764ba2);
-    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Infinite fill extension left (so fill appears to come from -∞) */
 .tl-fill::before {
-    content: '';
-    position: absolute;
-    right: 100%;
-    top: 0;
-    width: 200vw;
-    height: 2px;
-    background: #667eea;
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 200vw;
+  height: 2px;
+  background: #667eea;
 }
 
 /* Dot layer — absolutely positioned over the track area,
    dots positioned by JS in px                            */
 .tl-dot-layer {
-    position: absolute;
-    /* top: half of dot (8px) subtracted from track's vertical center.
+  position: absolute;
+  /* top: half of dot (8px) subtracted from track's vertical center.
        track sits at padding-top: 8px, so track top = 8px from area top.
        dot center should align with track center (track top + 1px).
        dot is 12px tall, so top of dot = track center - 6px = 8+1-6 = 3px */
-    top: 3px;
-    left: 0;
-    right: 0;
-    height: 0;   /* zero height — children use position:absolute */
-    overflow: visible;
+  top: 3px;
+  left: 0;
+  right: 0;
+  height: 0; /* zero height — children use position:absolute */
+  overflow: visible;
 }
 
 /* Each stop group */
 .tl-stop-group {
-    position: absolute;
-    /* horizontal position set in px by JS via style.left */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;   /* overridden per anchor by JS */
-    gap: 5px;
+  position: absolute;
+  /* horizontal position set in px by JS via style.left */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* overridden per anchor by JS */
+  gap: 5px;
 }
 
 /* Dot cluster row */
 .tl-dot-cluster {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* Single dot */
 .tl-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(102, 126, 234, 0.2);
-    border: 2px solid rgba(102, 126, 234, 0.3);
-    cursor: pointer;
-    transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-    flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.2);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+  flex-shrink: 0;
 }
 
 .tl-dot:hover {
-    background: rgba(102, 126, 234, 0.45);
-    border-color: rgba(102, 126, 234, 0.6);
+  background: rgba(102, 126, 234, 0.45);
+  border-color: rgba(102, 126, 234, 0.6);
 }
 
 .tl-dot.tl-dot-active {
-    background: #667eea;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-    transform: scale(1.2);
+  background: #667eea;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  transform: scale(1.2);
 }
 
 /* Year label below cluster */
 .tl-stop-year {
-    font-size: 0.6rem;
-    font-weight: 500;
-    color: #bbb;
-    white-space: nowrap;
-    transition: color 0.25s, font-weight 0.25s;
-    /* horizontal offset corrected by JS so label centre = anchor dot centre */
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: #bbb;
+  white-space: nowrap;
+  transition:
+    color 0.25s,
+    font-weight 0.25s;
+  /* horizontal offset corrected by JS so label centre = anchor dot centre */
 }
 
 .tl-stop-group.tl-stop-active .tl-stop-year {
-    color: #667eea;
-    font-weight: 700;
+  color: #667eea;
+  font-weight: 700;
 }
 
 /* ── Slideshow card ────────────────────────────────────────── */
 .tl-card {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.16);
+  position: relative;
+  width: 100%;
+  height: 420px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.16);
 }
 
 /* Background layers — one per card, stacked */
-.tl-card-bgs { position: absolute; inset: 0; }
-
-.tl-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transform: scale(1.04);
-    transition: opacity 0.55s ease, transform 0.55s ease;
+.tl-card-bgs {
+  position: absolute;
+  inset: 0;
 }
 
-.tl-bg.tl-bg-visible  { opacity: 1;  transform: scale(1); }
-.tl-bg.tl-bg-exit-fwd { opacity: 0;  transform: translateX(-2%) scale(0.98); }
-.tl-bg.tl-bg-exit-bwd { opacity: 0;  transform: translateX(2%)  scale(0.98); }
+.tl-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+
+.tl-bg.tl-bg-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.tl-bg.tl-bg-exit-fwd {
+  opacity: 0;
+  transform: translateX(-2%) scale(0.98);
+}
+.tl-bg.tl-bg-exit-bwd {
+  opacity: 0;
+  transform: translateX(2%) scale(0.98);
+}
 
 /* Gradient for text readability */
 .tl-card-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.88) 0%,
-        rgba(0,0,0,0.45) 45%,
-        transparent      100%
-    );
-    z-index: 2;
-    pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Text content */
 .tl-card-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    padding: 2rem 4.5rem 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 2rem 4.5rem 1rem;
 }
 
 .tl-badge {
-    display: inline-block;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-bottom: 0.55rem;
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 0.55rem;
 }
 
-.tl-badge-edu   { background: rgba(82,183,136,0.28);  color: #a7f3d0; }
-.tl-badge-award { background: rgba(255,140,66,0.28);   color: #fcd9b6; }
-.tl-badge-soon  { background: rgba(255,255,255,0.12);  color: rgba(255,255,255,0.45); }
+.tl-badge-edu {
+  background: rgba(82, 183, 136, 0.28);
+  color: #a7f3d0;
+}
+.tl-badge-award {
+  background: rgba(255, 140, 66, 0.28);
+  color: #fcd9b6;
+}
+.tl-badge-soon {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.45);
+}
 
 .tl-card-years {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.4rem;
 }
 
 .tl-card-institution {
-    font-size: 1.3rem;  /* reduce from 1.7rem */
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 0.2rem;  /* tighter gap before degree */
+  font-size: 1.3rem; /* reduce from 1.7rem */
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 0.2rem; /* tighter gap before degree */
 }
 
 .tl-card-degree {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.65);
-    margin-bottom: 0.5rem;
-    font-weight: 400;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
 }
 
 .tl-card-location {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.55);
-    margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.7rem;
 }
 
-.tl-card-location svg { flex-shrink: 0; opacity: 0.7; }
+.tl-card-location svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
 
 .tl-card-desc {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.82);
-    line-height: 1.65;
-    max-width: 580px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.65;
+  max-width: 580px;
 }
 
 .tl-card-desc.tl-muted {
-    color: rgba(255,255,255,0.35);
-    font-style: italic;
+  color: rgba(255, 255, 255, 0.35);
+  font-style: italic;
 }
 
 /* Chevron buttons */
 .tl-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 4;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.22);
-    background: rgba(255,255,255,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
 }
 
-.tl-btn svg { width: 18px; height: 18px; }
-.tl-btn-left  { left: 1rem; }
-.tl-btn-right { right: 1rem; }
+.tl-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.tl-btn-left {
+  left: 1rem;
+}
+.tl-btn-right {
+  right: 1rem;
+}
 
 .tl-btn:hover {
-    background: rgba(255,255,255,0.22);
-    border-color: rgba(255,255,255,0.5);
-    transform: translateY(-50%) scale(1.08);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) scale(1.08);
 }
 
-.tl-btn:active { transform: translateY(-50%) scale(0.96); }
+.tl-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
 
 .tl-btn.tl-disabled {
-    opacity: 0.15;
-    pointer-events: none;
+  opacity: 0.15;
+  pointer-events: none;
 }
 
 /* Placeholder bg colours (replace with real photos in CSS) */
 .tl-bg-school {
-    background-image: url('../../assets/images/school-800w.webp');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../../assets/images/school-800w.webp");
+  background-size: cover;
+  background-position: center;
 }
 .tl-bg-rkmrc {
-    background-image: url('../../assets/images/rkmrc-800w.webp');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../../assets/images/rkmrc-800w.webp");
+  background-size: cover;
+  background-position: center;
 }
 .tl-bg-iitm {
-    background-image: url('../../assets/images/iit_madras-800w.webp');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../../assets/images/iit_madras-800w.webp");
+  background-size: cover;
+  background-position: center;
 }
 .tl-bg-iiser {
-    background-image: url('../../assets/images/iiser_gate-800w.webp');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../../assets/images/iiser_gate-800w.webp");
+  background-size: cover;
+  background-position: center;
 }
 .tl-bg-iiserpmrf {
-    background-image: url('../../assets/images/iiser_lab-800w.webp');
-    background-size: cover;
-    background-position: bottom;
+  background-image: url("../../assets/images/iiser_lab-800w.webp");
+  background-size: cover;
+  background-position: bottom;
 }
-.tl-bg-inspire { background: linear-gradient(145deg, #0d1b6e, #c44b00, #ff8c42); }
-.tl-bg-csir { background: linear-gradient(145deg, #0a2342, #1a6b7a, #2eb8b8); }
-.tl-bg-pmrf { background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a); }
-.tl-bg-postdoc { background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #4a4a4a); }
+.tl-bg-inspire {
+  background: linear-gradient(145deg, #0d1b6e, #c44b00, #ff8c42);
+}
+.tl-bg-csir {
+  background: linear-gradient(145deg, #0a2342, #1a6b7a, #2eb8b8);
+}
+.tl-bg-pmrf {
+  background: linear-gradient(145deg, #1a0a00, #7a4500, #c8860a);
+}
+.tl-bg-postdoc {
+  background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #4a4a4a);
+}
 
 /* ── Personal section ─────────────────────────────────────── */
 .personal-section {
-    background: #f8f9fa;
-    padding: 4rem 0;
+  background: #f8f9fa;
+  padding: 4rem 0;
 }
 
 .about-bio {
-    border-left: 5px solid #3498db;
-    padding: 1.1rem 1.4rem;
-    border-radius: 0 10px 10px 0;
-    background: white;
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: #555;
-    margin-bottom: 2.5rem;
+  border-left: 5px solid #3498db;
+  padding: 1.1rem 1.4rem;
+  border-radius: 0 10px 10px 0;
+  background: white;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #555;
+  margin-bottom: 2.5rem;
 }
 
 .about-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #aaa;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    margin-bottom: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #aaa;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
 }
 
 /* Photo grid */
 .about-photo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 .about-photo-cell {
-    aspect-ratio: 1;
-    overflow: hidden;   /* clips the image to the cell */
+  aspect-ratio: 1;
+  overflow: hidden; /* clips the image to the cell */
 }
 
 .about-photo-cell img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;     /* removes inline gap below image */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* removes inline gap below image */
 }
 
 /* Placeholder colours — remove once real photos added */
-.apc1 { background: #b8d4ea; }
-.apc2 { background: linear-gradient(135deg, #f4845f, #e8a87c); }
-.apc3 { background: #74c69d; }
-.apc4 { background: #212529; }
-.apc5 { background: linear-gradient(135deg, #f9a825, #ffe066); }
-.apc6 { background: linear-gradient(135deg, #4a90d9, #90e0ef); }
+.apc1 {
+  background: #b8d4ea;
+}
+.apc2 {
+  background: linear-gradient(135deg, #f4845f, #e8a87c);
+}
+.apc3 {
+  background: #74c69d;
+}
+.apc4 {
+  background: #212529;
+}
+.apc5 {
+  background: linear-gradient(135deg, #f9a825, #ffe066);
+}
+.apc6 {
+  background: linear-gradient(135deg, #4a90d9, #90e0ef);
+}
 
 /* Instagram handle pills */
 .about-ig-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
 }
 
 .about-ig-card {
-    background: white;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    overflow: hidden;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .about-ig-card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
 }
 
 .about-ig-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(
+    45deg,
+    #f09433,
+    #e6683c,
+    #dc2743,
+    #cc2366,
+    #bc1888
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .about-ig-avatar svg {
-    width: 18px;
-    height: 18px;
-    fill: white;
+  width: 18px;
+  height: 18px;
+  fill: white;
 }
 
-.about-ig-info { flex: 1; min-width: 0; }
+.about-ig-info {
+  flex: 1;
+  min-width: 0;
+}
 
 .about-ig-name {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #2c3e50;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
 .about-ig-handle {
-    font-size: 0.75rem;
-    color: #aaa;
+  font-size: 0.75rem;
+  color: #aaa;
 }
 
 .about-ig-follow {
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 0.3rem 0.85rem;
-    border-radius: 6px;
-    border: 1px solid rgba(52, 152, 219, 0.3);
-    background: rgba(52, 152, 219, 0.08);
-    color: #3498db;
-    text-decoration: none;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: background 0.2s, border-color 0.2s;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.3rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  background: rgba(52, 152, 219, 0.08);
+  color: #3498db;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .about-ig-follow:hover {
-    background: rgba(52, 152, 219, 0.15);
-    border-color: rgba(52, 152, 219, 0.5);
-    text-decoration: none;
+  background: rgba(52, 152, 219, 0.15);
+  border-color: rgba(52, 152, 219, 0.5);
+  text-decoration: none;
 }
 /* Interests */
 .about-interests {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
 }
 
 .about-interest-card {
-    background: white;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    padding: 1rem 1.1rem;
-    display: flex;
-    gap: 0.8rem;
-    align-items: flex-start;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
 }
 
-.about-interest-icon { font-size: 1.2rem; flex-shrink: 0; }
+.about-interest-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
 
 .about-interest-card h4 {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 0.2rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.2rem;
 }
 
 .about-interest-card p {
-    font-size: 0.78rem;
-    color: #888;
-    line-height: 1.5;
-    margin: 0;
+  font-size: 0.78rem;
+  color: #888;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* Writing placeholder */
-.about-writing-soon {
-    background: white;
-    border: 1px dashed #ddd;
-    border-radius: 12px;
-    padding: 2.5rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-    text-align: center;
+*
+  ──
+  Writing
+  /
+  Substack
+  ──────────────────────────────────────
+  */
+  .about-writing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.about-substack-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: #e06b4a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.4;
+/* Origin card — dark, always pinned */
+.about-origin-card {
+  background: #1c1f26;
+  border-radius: 12px;
+  padding: 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.about-substack-icon svg { width: 24px; height: 24px; fill: white; }
-
-.about-soon-pill {
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: #f5f5f5;
-    color: #ccc;
-    border: 1px solid #eee;
+.about-origin-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.about-writing-soon h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #bbb;
-    margin: 0;
+.about-origin-pill {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: rgba(224, 107, 74, 0.18);
+  color: #e06b4a;
+  border: 1px solid rgba(224, 107, 74, 0.3);
 }
 
-.about-writing-soon p {
-    font-size: 0.78rem;
-    color: #ccc;
-    line-height: 1.6;
-    max-width: 300px;
-    margin: 0;
+.about-origin-read {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.about-origin-read:hover {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+.about-origin-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.about-origin-divider {
+  width: 28px;
+  height: 2px;
+  background: #e06b4a;
+  border-radius: 2px;
+}
+
+.about-origin-quote {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin: 0;
+  font-style: italic;
+  border-left: 2px solid rgba(224, 107, 74, 0.5);
+  padding-left: 0.75rem;
+}
+
+.about-origin-meta {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+/* Featured post */
+.about-post-featured {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.about-post-featured-body {
+  padding: 1.1rem 1.2rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.about-post-meta {
+  font-size: 0.68rem;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.about-post-dot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+.about-post-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.about-post-sub {
+  font-size: 0.78rem;
+  color: #888;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.about-post-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.2rem 0.8rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.about-post-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(224, 107, 74, 0.09);
+  color: #b85030;
+  border: 1px solid rgba(224, 107, 74, 0.18);
+}
+
+.about-post-read {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.about-post-read:hover {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+/* 3-column mini grid */
+.about-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.about-post-mini {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 0.9rem 1rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.about-post-mini-meta {
+  font-size: 0.65rem;
+  color: #bbb;
+}
+
+.about-post-mini-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.about-post-mini-sub {
+  font-size: 0.72rem;
+  color: #999;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.about-post-mini-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 0.2rem;
+}
+
+/* Placeholder card */
+.about-post-ph {
+  background: white;
+  border: 1px dashed #ddd;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  font-size: 0.72rem;
+  color: #ccc;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* View all link */
+.about-posts-view-all {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3498db;
+  text-decoration: none;
+  padding: 0.6rem;
+  border: 1px solid rgba(52, 152, 219, 0.22);
+  border-radius: 8px;
+  background: rgba(52, 152, 219, 0.04);
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.about-posts-view-all:hover {
+  background: rgba(52, 152, 219, 0.09);
+  border-color: rgba(52, 152, 219, 0.4);
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .about-posts-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .tl-card { height: 380px; }
-    .tl-card-content { padding: 1.5rem 4rem 2rem; }
-    .tl-card-institution { font-size: 1.3rem; }
+  .tl-card {
+    height: 380px;
+  }
+  .tl-card-content {
+    padding: 1.5rem 4rem 2rem;
+  }
+  .tl-card-institution {
+    font-size: 1.3rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .tl-card { height: 340px; }
-    .tl-card-content { padding: 1.2rem 3.5rem 1.6rem; }
-    .tl-card-institution { font-size: 1.1rem; }
-    .about-photo-grid { gap: 3px; }
+  .tl-card {
+    height: 340px;
+  }
+  .tl-card-content {
+    padding: 1.2rem 3.5rem 1.6rem;
+  }
+  .tl-card-institution {
+    font-size: 1.1rem;
+  }
+  .about-photo-grid {
+    gap: 3px;
+  }
 }
 
 @media (max-width: 600px) {
-    .about-ig-row {
-        grid-template-columns: 1fr;
-    }
+  .about-ig-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-    .nav-container {
-        overflow: visible;
-    }
+  .nav-container {
+    overflow: visible;
+  }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@300;400&display=swap");
 
 .quotes-section {
   padding: 2.5rem 1.5rem;
   max-width: 720px;
   margin: 0 auto;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .section-label {
@@ -594,7 +890,7 @@
 }
 
 .section-label::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 0.5px;
   background: var(--color-border-tertiary);
@@ -613,7 +909,7 @@
   position: absolute;
   top: 1rem;
   left: 1rem;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 48px;
   line-height: 1;
   color: var(--color-border-secondary);
@@ -622,7 +918,7 @@
 }
 
 .quote-text {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-style: italic;
   font-size: 17px;
   line-height: 1.75;
