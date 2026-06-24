@@ -574,13 +574,8 @@
 }
 
 *
-  ──
-  Writing
-  /
-  Substack
-  ──────────────────────────────────────
-  */
-  .about-writing {
+ /* ── Writing / Substack ────────────────────────────────────── */
+.about-writing {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
