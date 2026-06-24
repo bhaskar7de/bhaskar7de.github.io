@@ -622,6 +622,14 @@
   text-decoration: none;
 }
 
+.about-origin-title-link {
+  text-decoration: none;
+}
+
+.about-origin-title-link:hover .about-origin-title {
+  opacity: 0.8;
+}
+
 .about-origin-title {
   font-size: 1.1rem;
   font-weight: 700;
